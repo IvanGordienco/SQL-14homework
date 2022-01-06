@@ -91,13 +91,13 @@ def get_all_movie_by_rating(rating):
 
 def get_all_movie_by_genre(genre):
     con = sqlite3.connect("netflix.db")
-
+    genre = genre.lower()
     sqlite_query = \
         "SELECT `title`, `description`, `listed_in` " \
         "FROM netflix " \
         f"WHERE `listed_in` LIKE '%{genre}%' " \
         "LIMIT 10 " \
-        "ORDER BY DESC "
+        # "ORDER BY DESC " \ - Почему-то не хочет работать
 
     cur = con.cursor()
     cur = cur.execute(sqlite_query)
@@ -105,13 +105,13 @@ def get_all_movie_by_genre(genre):
     data = []
 
     for row in cur.fetchall():
-        movie_by_rating = {
+        movie_by_genre = {
             "Title": data_raw[0],
             "Description": data_raw[1],
             "Listed_in": data_raw[2]
 
         }
-        data.append(movie_by_rating)
+        data.append(movie_by_genre)
     con.close()
     return data
 
@@ -130,11 +130,14 @@ def get_actors_company(first_actor, second_actor):
     cur = cur.execute(sqlite_query)
     data_raw = cur.fetchone()
 
+
     actors_list = data_raw[0].split(", ")
     actors_list_unique = set(actors_list)
 
     actors_list_unique.remove(first_actor)
     actors_list_unique.remove(second_actor)
+
+
     return actors_list_unique
 
 
