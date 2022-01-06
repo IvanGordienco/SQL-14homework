@@ -92,7 +92,7 @@ def get_all_movie_by_genre(genre):
         "FROM netflix " \
         f"WHERE `listed_in` LIKE '%{genre}%' " \
         "LIMIT 10 " \
-        # "ORDER BY DESC " \ - Почему-то не хочет работать
+        "ORDER BY release_year DESC "
 
     cur = con.cursor()
     cur = cur.execute(sqlite_query)
