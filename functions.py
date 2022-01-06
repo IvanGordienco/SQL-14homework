@@ -1,9 +1,9 @@
 import json
 import sqlite3
-import pprint
 
 
 def get_all_movie_by_title(title):
+    #  поиск по названию.
     con = sqlite3.connect("netflix.db")
 
     sqlite_query = "SELECT `title`,`country`,`release_year`,`listed_in`,`description` " \
@@ -28,6 +28,7 @@ def get_all_movie_by_title(title):
 
 
 def get_all_movie_between_years(year1, year2):
+    # поиск по диапазону лет выпуска с лимитом в 100 тайтл.
     con = sqlite3.connect("netflix.db")
 
     sqlite_query = "SELECT `title`,`country`,`release_year`,`listed_in`,`description` " \
@@ -55,6 +56,7 @@ def get_all_movie_between_years(year1, year2):
 
 
 def get_all_movie_by_rating(rating):
+    # поиск по рейтингу,Определение группы: для детей, для семейного просмотра, для взрослых.
     con = sqlite3.connect("netflix.db")
 
     sqlite_query = \
@@ -79,10 +81,10 @@ def get_all_movie_by_rating(rating):
     return data
 
 
-# pprint.pprint(get_all_movie_by_rating("PG"))
-
-
 def get_all_movie_by_genre(genre):
+    # функция, которая получает название жанра в качестве аргумента и
+    # возвращает 10 самых свежих фильмов
+
     con = sqlite3.connect("netflix.db")
     genre = genre.lower()
     sqlite_query = \
@@ -109,6 +111,9 @@ def get_all_movie_by_genre(genre):
 
 
 def get_actors_company(first_actor, second_actor):
+    #  функция, которая получает в качестве аргумента имена двух актеров,
+    # сохраняет всех актеров из колонки cast и возвращает список тех, кто играет с ними в паре больше 2 раз
+
     con = sqlite3.connect("netflix.db")
 
     sqlite_query = \
@@ -132,6 +137,9 @@ def get_actors_company(first_actor, second_actor):
 
 
 def filter_movies(movie_type, year, genre):
+    # фунция, с помощью которой можно будет передавать тип картины (фильм или сериал),
+    # год выпуска и ее жанр в БД
+
     con = sqlite3.connect("netflix.db")
 
     sqlite_query = \
