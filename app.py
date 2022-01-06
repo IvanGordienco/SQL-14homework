@@ -19,11 +19,12 @@ def page_movies_between_years(year_from, year_to):
     return jsonify(movie)
 
 
-# @app.route('/rating/')
-# def page_movies_by_rating(rating):
-#     movie = get_all_movie_by_rating(rating)
-#
-#     return jsonify(movie)
+@app.route('/rating/<rating_age>')
+def page_movies_by_rating(rating_age):
+    movie = get_all_movie_by_rating(rating_age)
+
+    return jsonify(movie)
+
 
 @app.route('/genre/<movie_genre>')
 def page_movie_by_genre(movie_genre):
