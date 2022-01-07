@@ -19,10 +19,21 @@ def page_movies_between_years(year_from, year_to):
     return jsonify(movie)
 
 
-@app.route('/rating/<rating_age>')
-def page_movies_by_rating(rating_age):
-    movie = get_all_movie_by_rating(rating_age)
+@app.route('/rating/children/')
+def rating_children():
+    movie = get_all_movie_by_rating(['G'])
+    return jsonify(movie)
 
+
+@app.route('/rating/family/')
+def rating_family():
+    movie = get_all_movie_by_rating(['PG', 'PG-13'])
+    return jsonify(movie)
+
+
+@app.route('/rating/adult/')
+def rating_adult():
+    movie = get_all_movie_by_rating(['R', 'NC-17'])
     return jsonify(movie)
 
 

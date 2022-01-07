@@ -1,5 +1,6 @@
 import json
 import sqlite3
+import pprint
 
 
 def get_all_movie_by_title(title):
@@ -56,14 +57,21 @@ def get_all_movie_between_years(year1, year2):
 
 
 def get_all_movie_by_rating(rating):
-    # поиск по рейтингу,Определение группы: для детей, для семейного просмотра, для взрослых.
-    con = sqlite3.connect("netflix.db")
+    # поиск по рейтингу,
+    # Определение группы: для детей, для семейного просмотра, для взрослых.
 
-    sqlite_query = \
-        "SELECT `title`, `rating`, `description` " \
-        "FROM netflix " \
-        f"WHERE `rating` IN ('{rating}') " \
-        "LIMIT 100 "
+    con = sqlite3.connect('netflix.db')
+    if len(rating) > 1:
+        str_rating = "','".join(rating)
+    else:
+        str_rating = "".join(rating)
+
+    sqlite_query = f""" 
+                       SELECT `title`, `rating`, `description`
+                       FROM netflix 
+                       WHERE rating in ('{str_rating}') 
+                       LIMIT 100
+                   """
 
     cur = con.cursor()
     cur = cur.execute(sqlite_query)
@@ -91,8 +99,8 @@ def get_all_movie_by_genre(genre):
         "SELECT `title`, `description`, `listed_in` " \
         "FROM netflix " \
         f"WHERE `listed_in` LIKE '%{genre}%' " \
-        "LIMIT 10 " \
-        "ORDER BY release_year DESC "
+        "ORDER BY `release_year` DESC  " \
+        "LIMIT 10 "
 
     cur = con.cursor()
     cur = cur.execute(sqlite_query)
@@ -145,7 +153,7 @@ def filter_movies(movie_type, year, genre):
     sqlite_query = \
         "SELECT `title`, `description`, `listed_in`, `release_year` " \
         "FROM netflix " \
-        f"WHERE `type` = '{movie_type}' AND `release_year` = {year} AND  `listed_in` LIKE '%{genre}%' " \
+        f"WHERE `type` = {movie_type} AND `release_year` = {year} AND  `listed_in` LIKE '%{genre}%' " \
         "LIMIT 100 "
 
     cur = con.cursor()
